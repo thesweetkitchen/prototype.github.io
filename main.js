@@ -5,6 +5,26 @@ let terminalContainer = document.getElementById('terminal');
 let sendForm = document.getElementById('send-form');
 let inputField = document.getElementById('input');
 
+constructor(serviceUuid = 0xFFE0, characteristicUuid = 0xFFE1,
+      receiveSeparator = '\n', sendSeparator = '\n') {
+    // Used private variables.
+    this._receiveBuffer = ''; // Buffer containing not separated data.
+    this._maxCharacteristicValueLength = 20; // Max characteristic value length.
+    this._device = null; // Device object cache.
+    this._characteristic = null; // Characteristic object cache.
+
+    // Bound functions used to add and remove appropriate event handlers.
+    this._boundHandleDisconnection = this._handleDisconnection.bind(this);
+    this._boundHandleCharacteristicValueChanged =
+        this._handleCharacteristicValueChanged.bind(this);
+
+    // Configure with specified parameters.
+    this.setServiceUuid(serviceUuid);
+    this.setCharacteristicUuid(characteristicUuid);
+    this.setReceiveSeparator(receiveSeparator);
+    this.setSendSeparator(sendSeparator);
+  }
+  
 // Connect to the device on Connect button click
 connectButton.addEventListener('click', function() {
   connect();

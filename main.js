@@ -45,10 +45,9 @@ function requestBluetoothDevice() {
   //return navigator.bluetooth.requestDevice({
 //    filters: [{services: [0xFFE1]}],
 //  }).
-if(navigator.bluetooth) {
-               navigator.bluetooth.requestDevice({
-                   acceptAllDevices: true
-               }).
+return navigator.bluetooth.requestDevice({
+  filters: [{services: [this._serviceUuid]}],
+}).
       then(device => {
         log('"' + device.name + '" bluetooth device selected');
         deviceCache = device;

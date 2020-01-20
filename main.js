@@ -42,10 +42,13 @@ function connect() {
 function requestBluetoothDevice() {
   log('Requesting bluetooth device...');
 
-  return navigator.bluetooth.requestDevice({
-    options: [{acceptAllDevices: true}],
-    //filters: [{services: [0xFFE1]}],
-  }).
+  //return navigator.bluetooth.requestDevice({
+//    filters: [{services: [0xFFE1]}],
+//  }).
+if(navigator.bluetooth) {
+               navigator.bluetooth.requestDevice({
+                   acceptAllDevices: true,
+               }).
       then(device => {
         log('"' + device.name + '" bluetooth device selected');
         deviceCache = device;
